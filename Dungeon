@@ -1,0 +1,101 @@
+# Imports
+import winsound
+from tkinter import *
+import time
+import random
+from winsound import PlaySound
+from PIL import ImageTk, Image
+
+# The window
+wind = Tk()
+
+# This mf song
+def song():
+
+    PlaySound("C:\\Users\\19702\\Downloads\\funny-halloween-spooky-horror-background-music-242101.wav", True)
+
+# random event for random events
+def dice():
+    number = random.randint(1,6)
+    return number
+
+# Death scenario
+def death():
+    print("You died, and lose if that is not obvious")
+
+# Fighting function for encounters
+def fight(life, animal):
+    while animal > 0:
+        # time.sleep(2)
+        hit = random.randint(1,6)
+        if hit <= 3:
+            life -= 1
+            if life <= 0:
+                death()
+                break
+            else:
+                pass
+        if hit > 3:
+            animal -= 1
+            if hit == 6:
+                animal -= 2
+    return life
+
+def Cheeseburger():
+    x = Label(wind, )
+
+def Jump():
+    x = Label(wind, image=jump_i)
+    x.place(relwidth=1, relheight=2)
+    y = Button(wind, text="Jump", command=dice(), height=5, width=10, font=("Times New Roman", 10))
+    y.place(x=1300, y=1000)
+    if y == 1:
+        death()
+    else:
+        room_2()
+
+
+def room_1():
+    pathway = Label(wind, image=pathway_1_i)
+    pathway.place(relwidth=1, relheight=1)
+    C_1 = Button(wind, text="Left", command=Jump, height=5, width=10, font=("Times New Roman", 10))
+    C_2 = Button(wind, text="Right", command=Cheeseburger, height=5, width=10, font=("Times New Roman", 10))
+    C_1.place(x=1100, y=1000)
+    C_2.place(x=1300, y=1000)
+
+def Start():
+    Castle = Label(wind, image=Castle_i)
+    Castle.place(relwidth=1, relheight=1)
+    # Stats Label
+    stats = Label(wind, text=(f"Health = {life}\n"
+                              f"Energy = {energy}\n"
+                              f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    stats.place(x=100, y=100)
+    enter = Button(wind, text="Enter", command=room_1, height=5, width=10, font=("Times New Roman", 10))
+    enter.place(x=1100, y=1000)
+# Initialize starting stats, going to be changed later
+life = 10
+energy = 4
+gold = 0
+
+# Simple quality of life window stuff
+wind.title("McClain's Dungeon")
+s_width = wind.winfo_screenwidth()
+s_height = wind.winfo_screenheight()
+wind.geometry(f"{s_width}x{s_height}")
+
+# Starting Screen
+startScreen = Label(wind, text="Welcome to McClain's Dungeon adventure, in this scenario you are tasked with one thing.\n Enter and escape my dungeon. A couple things you should keep track of beforehand.\n Look at the top left of your screen as the game starts, this is your stats menu.\n You have 3 stats, health, energy, and gold. Watch out, because if your health or stamina get to 0, you lose.\n To keep this from happening, consider you decisions.\n Simple actions might require stamina without your knowledge, and certain pathways lead to instant death.\n Good luck and as always, have fun.",
+                   font=("Times New Roman", 40,), fg="white", background="black")
+startScreen.pack(expand=True)
+Start_B = Button(wind, command=Start, text="Start", width=10, height=5, font=("Times New Roman", 10), bg="blue", fg="white")
+Start_B.place(x=1250, y=1000)
+
+# Images
+Castle_i = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\output-onlinepngtools.png")
+pathway_1_i = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\output-onlinepngtools (1).png")
+jump_i = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\output-onlinepngtools (2).png")
+
+song()
+wind.mainloop()
+
