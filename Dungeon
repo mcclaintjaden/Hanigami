@@ -1,10 +1,9 @@
 # Imports
 import winsound
 from tkinter import *
-import time
 import random
 from winsound import PlaySound
-from PIL import ImageTk, Image
+from PIL import ImageTk
 
 # The window
 wind = Tk()
@@ -14,69 +13,381 @@ def song():
 
     PlaySound("C:\\Users\\19702\\Downloads\\funny-halloween-spooky-horror-background-music-242101.wav", True)
 
+def victory():
+    print("Yo, you won, congrats")
+    wind.destroy()
+
 # random event for random events
 def dice():
     number = random.randint(1,6)
     return number
 
+def Block():
+    global blocks
+    global life
+    if blocks <= 0:
+        pass
+    else:
+        for f in animals_func:
+            x = dice()
+            for i in animals:
+                if i == enemy:
+                    if x == 6:
+                        life -= 1
+                        if life <= 0:
+                            death()
+                        else:
+                            if f == enemy :
+                                animals_func.get(f)()
+                    if x <= 4:
+                        if f == enemy:
+                            life += 1
+                            blocks -= 1
+                            animals_func.get(f)()
+                    if x == 6:
+                        if f == enemy:
+                            blocks -= 1
+                            animals_func.get(f)()
+
+
+
 # Death scenario
 def death():
     print("You died, and lose if that is not obvious")
+    wind.destroy()
 
-# Fighting function for encounters
-def fight(life, animal):
-    while animal > 0:
-        # time.sleep(2)
-        hit = random.randint(1,6)
-        if hit <= 3:
-            life -= 1
-            if life <= 0:
-                death()
-                break
-            else:
-                pass
-        if hit > 3:
-            animal -= 1
-            if hit == 6:
-                animal -= 2
-    return life
 
-def Cheeseburger():
-    x = Label(wind, )
+# Middle Route
+def Big_H():
+    global life
+    global enemy
+    enemy  = "h"
+    boss = Label(wind, image=hana)
+    boss.place(relheight=1, relwidth=1)
+    health = Label(wind, image=heart)
+    health.place(x=100, y=1000)
+    z_health = Label(wind, image=heart)
+    z_health.place(x=1500, y=100)
+    live = Label(wind, text=life, font=("sans", 30))
+    live.place(x=170, y=1060)
+    z_live = Label(wind, text=animals[enemy], font=("sans", 30))
+    z_live.place(x=1570, y=160)
+    button_A.config(command=Attack, text="Attack")
+    button_A.lift()
+    button_B.config(command=Block, text="Block")
+    button_B.lift()
 
-def Jump():
-    x = Label(wind, image=jump_i)
-    x.place(relwidth=1, relheight=2)
-    y = Button(wind, text="Jump", command=dice(), height=5, width=10, font=("Times New Roman", 10))
-    y.place(x=1300, y=1000)
-    if y == 1:
-        death()
+def sec():
+    global energy
+    if energy >= 5:
+        lok = Label(wind, image=lokahi)
+        lok.place(relwidth=1, relheight=1)
     else:
-        room_2()
+        pass
 
 
-def room_1():
-    pathway = Label(wind, image=pathway_1_i)
-    pathway.place(relwidth=1, relheight=1)
-    C_1 = Button(wind, text="Left", command=Jump, height=5, width=10, font=("Times New Roman", 10))
-    C_2 = Button(wind, text="Right", command=Cheeseburger, height=5, width=10, font=("Times New Roman", 10))
-    C_1.place(x=1100, y=1000)
-    C_2.place(x=1300, y=1000)
+def chamber():
+    door = Label(wind, image=thedoor)
+    door.place(relheight=1, relwidth=1)
+    stats.lift()
+    button_A.config(command=Big_H, text="Enter Chamber")
+    button_A.lift()
+    button_B.config(command=sec, text="climb ladder\n"
+                                      "5 energy")
+    button_B.lift()
 
-def Start():
-    Castle = Label(wind, image=Castle_i)
-    Castle.place(relwidth=1, relheight=1)
-    # Stats Label
-    stats = Label(wind, text=(f"Health = {life}\n"
+def Bunnies():
+    global life
+    global enemy
+    enemy = "b"
+    boss = Label(wind, image=bun)
+    boss.place(relwidth=1, relheight=1)
+    health = Label(wind, image=heart)
+    health.place(x=100, y=1000)
+    z_health = Label(wind, image=heart)
+    z_health.place(x=1500, y=100)
+    live = Label(wind, text=life, font=("sans", 30))
+    live.place(x=170, y=1060)
+    z_live = Label(wind, text=animals[enemy], font=("sans", 30))
+    z_live.place(x=1570, y=160)
+    button_A.config(command=Attack, text="Attack")
+    button_A.lift()
+    button_B.config(command=Block, text="Block")
+    button_B.lift()
+    boss.after(300000, boss.destroy)
+    z_health.after(300000, z_health.destroy)
+    live.after(300000, live.destroy)
+    z_live.after(300000, z_live.destroy)
+
+def Trap_3():
+    global energy
+    energy -= 1
+    stats.config(text=(f"Health = {life}\n"
+                       f"Energy = {energy}\n"
+                       f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    trap = Label(wind, image=Trapdoor)
+    trap.place(relwidth=1, relheight=1)
+    stats.lift()
+    button_A.config(command=chamber, text="Continue?")
+    button_A.lift()
+    button_B.config(command=Bunnies, text="Enter Trapdoor")
+    button_B.lift()
+    trap.after(100000, trap.destroy)
+
+def wolves():
+    global life
+    global enemy
+    enemy = "w"
+    boss = Label(wind, image=wolf)
+    boss.place(relwidth=1, relheight=1)
+    health = Label(wind, image=heart)
+    health.place(x=100, y=1000)
+    z_health = Label(wind, image=heart)
+    z_health.place(x=1500, y=100)
+    live = Label(wind, text=life, font=("sans", 30))
+    live.place(x=170, y=1060)
+    z_live = Label(wind, text=animals[enemy], font=("sans", 30))
+    z_live.place(x=1570, y=160)
+    button_A.config(command=Attack, text="Attack")
+    button_A.lift()
+    button_B.config(command=Block, text="Block")
+    button_B.lift()
+    boss.after(300000, boss.destroy)
+    z_health.after(300000, z_health.destroy)
+    live.after(300000, live.destroy)
+    z_live.after(300000, z_live.destroy)
+
+# Right Route
+def Zach():
+    global life
+    global enemy
+    enemy  = "z"
+    boss = Label(wind, image=Zach_picture)
+    boss.place(relheight=1, relwidth=1)
+    health = Label(wind, image=heart)
+    health.place(x=100, y=1000)
+    z_health = Label(wind, image=heart)
+    z_health.place(x=1500, y=100)
+    live = Label(wind, text=life, font=("sans", 30))
+    live.place(x=170, y=1060)
+    z_live = Label(wind, text=animals[enemy], font=("sans", 30))
+    z_live.place(x=1570, y=160)
+    button_A.config(command=Attack, text="Attack")
+    button_A.lift()
+    button_B.config(command=Block, text="Block")
+    button_B.lift()
+
+
+def Z_chamber():
+    door = Label(wind, image=Z_door)
+    door.place(relheight=1, relwidth=1)
+    warning = Label(wind, text="Warning, you are about to fight the hardest boss in the game,\n I think you should RUN and go fight the normal boss", font=("Times New Roman", 40), fg="purple")
+    warning.place(x=200, y=100)
+    stats.lift()
+    button_A.config(command=Zach, text="Enter Chamber")
+    button_A.lift()
+    button_B.config(text="RUN")
+    button_B.lift()
+    door.after(100000, door.destroy)
+    warning.after(100000, warning.destroy)
+
+def Trap_2():
+    stats.config(text=(f"Health = {life}\n"
+                       f"Energy = {energy}\n"
+                       f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    trap = Label(wind, image=Trapdoor)
+    trap.place(relwidth=1, relheight=1)
+    stats.lift()
+    button_A.config(command=Z_chamber, text="Continue?")
+    button_A.lift()
+    button_B.config(command=Bunnies, text="Enter Trapdoor")
+    button_B.lift()
+    trap.after(100000, trap.destroy)
+
+def Get_gold():
+    global gold
+    global energy
+    energy -= 1
+    gold += 1
+    Trap_2()
+
+def Gold():
+    g_coin = Label(wind, image=coin)
+    g_coin.place(relwidth=1, relheight=1)
+    button_A.config(command=Get_gold, text="Take?")
+    button_B.config(command=Trap_2, text="Walk Past")
+    button_A.lift()
+    button_B.lift()
+    g_coin.after(100000, g_coin.destroy)
+    stats.lift()
+
+def Room_3():
+    doors = Label(wind, image=Doors)
+    doors.place(relheight=1, relwidth=1)
+    button_A.config(text="Left", command=wolves)
+    button_B.config(text="Keep Right", command=Gold)
+    button_B.lift()
+    button_A.lift()
+    doors.after(100000, doors.destroy)
+    stats.config(text=(f"Health = {life}\n"
                               f"Energy = {energy}\n"
                               f"Gold = {gold}\n"), font=("Times New Roman", 16))
-    stats.place(x=100, y=100)
-    enter = Button(wind, text="Enter", command=room_1, height=5, width=10, font=("Times New Roman", 10))
-    enter.place(x=1100, y=1000)
-# Initialize starting stats, going to be changed later
-life = 10
+    stats.lift()
+
+def Eat():
+    global energy
+    global life
+    energy += 1
+    life += 4
+    x = dice()
+    if x == 1:
+        death()
+    else:
+        Room_3()
+
+def no_eat():
+    global energy
+    energy -= 1
+    Room_3()
+
+def Cheeseburger():
+    x = BooleanVar
+    cheese = Label(wind, image=burger)
+    cheese.place(relwidth=1, relheight=1)
+    stats.lift()
+    button_A.config(command=Eat, text="Eat Burger?")
+    button_B.config(command=no_eat, text="Leave Burger")
+    button_A.lift()
+    button_B.lift()
+    cheese.after(100000, cheese.destroy)
+
+# Left Route
+def Box():
+    global energy
+    energy -= 1
+    box = Label(wind, image=la_box)
+    box.place(relwidth=1, relheight=1)
+    stats.config(height=20, text=(f"Health = {life}\n"
+                              f"Energy = {energy}\n"
+                              f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    stats.lift()
+    button_A.config(command=death, text="Open this \n "
+                                        "shiny box?")
+    button_A.lift()
+    button_B.config(command=victory, text="Leave the \n"
+                                          "castle and win")
+    button_B.lift()
+
+def P_chamber():
+    door = Label(wind, image=P_door)
+    door.place(relheight=1, relwidth=1)
+    stats.lift()
+    button_A.config(command=Box, text="Enter Chamber")
+    button_A.lift()
+
+
+def Trap_1():
+    global energy
+    energy -= 1
+    stats.config(text=(f"Health = {life}\n"
+                       f"Energy = {energy}\n"
+                       f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    trap = Label(wind, image=Trapdoor)
+    trap.place(relwidth=1, relheight=1)
+    stats.lift()
+    button_A.config(command=P_chamber, text="Continue?")
+    button_A.lift()
+    button_B.config(command=Bunnies, text="Enter Trapdoor")
+    button_B.lift()
+    trap.after(100000, trap.destroy)
+
+
+def get_pie():
+    if question.get() == "3.1415926":
+        Trap_1()
+    else:
+        death()
+
+
+def pie():
+    teacher = Label(wind, image=math)
+    teacher.place(relwidth=1, relheight=1)
+    q = Label(wind, text="What is the 1st 8 digits of pie? ", font=("Times New Roman", 20))
+    question.place(x=1300, y=1100)
+    q.place(x=1300, y=1000)
+    question.lift()
+    button_A.config(command=get_pie, text="Submit?")
+    button_A.lift()
+    teacher.after(100000, teacher.destroy)
+    q.after(100000, q.destroy)
+    question.after(100000, question.destroy)
+    stats.config(text=(f"Health = {life}\n"
+                              f"Energy = {energy}\n"
+                              f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    stats.lift()
+
+
+def Room_2():
+    global energy
+    energy -= 1
+    doors = Label(wind, image=Doors)
+    doors.place(relheight=1, relwidth=1)
+    button_A.config(text="Keep Left", command=pie)
+    button_B.config(text="Right", command=wolves)
+    button_B.lift()
+    button_A.lift()
+    doors.after(100000, doors.destroy)
+    stats.config(text=(f"Health = {life}\n"
+                              f"Energy = {energy}\n"
+                              f"Gold = {gold}\n"), font=("Times New Roman", 16))
+    stats.lift()
+
+def Jump():
+    hole = Label(wind, image=jump_i)
+    hole.place(relwidth=1, relheight=2)
+    x = dice()
+    stats.lift()
+    if x == 1:
+        button_A.config(text="Jump it?", command=death)
+        button_A.lift()
+        hole.after(10000, hole.destroy)
+    else:
+        button_A.config(text="Jump it?", command=Room_2)
+        button_A.lift()
+
+# Starting rooms
+def Room_1():
+    pathway = Label(wind, image=pathway_1_i)
+    pathway.place(relwidth=1, relheight=1)
+    stats.lift()
+    button_A.config(text="Left", command=Jump)
+    button_A.lift()
+    button_B.config(text="Right", command=Cheeseburger)
+    button_B.place(x=1400, y=1100)
+    button_B.lift()
+    pathway.after(100000, pathway.destroy)
+
+def Start():
+    castle = Label(wind, image=Castle_i, text="Oh look, a spooky castle. You should like go into it, yes bro")
+    castle.place(relwidth=1, relheight=1)
+    stats.lift()
+    button_A.config(text="Enter", command=Room_1)
+    button_A.lift()
+    castle.after(100000, castle.destroy)
+
+life = 15
 energy = 4
 gold = 0
+animals = {"z": 20,
+           "h": 12,
+           "w": 5,
+           "b": 7}
+animals_func = {"z": Zach,
+                "h": Big_H,
+                "w": wolves,
+                "b": Bunnies}
+enemy = StringVar
+blocks = 10
 
 # Simple quality of life window stuff
 wind.title("McClain's Dungeon")
@@ -88,14 +399,86 @@ wind.geometry(f"{s_width}x{s_height}")
 startScreen = Label(wind, text="Welcome to McClain's Dungeon adventure, in this scenario you are tasked with one thing.\n Enter and escape my dungeon. A couple things you should keep track of beforehand.\n Look at the top left of your screen as the game starts, this is your stats menu.\n You have 3 stats, health, energy, and gold. Watch out, because if your health or stamina get to 0, you lose.\n To keep this from happening, consider you decisions.\n Simple actions might require stamina without your knowledge, and certain pathways lead to instant death.\n Good luck and as always, have fun.",
                    font=("Times New Roman", 40,), fg="white", background="black")
 startScreen.pack(expand=True)
-Start_B = Button(wind, command=Start, text="Start", width=10, height=5, font=("Times New Roman", 10), bg="blue", fg="white")
-Start_B.place(x=1250, y=1000)
+button_A = Button(wind, command=Start, text="Start", width=12, height=5, font=("Times New Roman", 15), bg="black", fg="white", borderwidth=10)
+button_A.place(x=1000, y=1100)
+button_B = Button(wind, width=12, height=5, font=("Times New Roman", 15), bg="black", fg="white", borderwidth=10)
+stats = Label(wind, text=(f"Health = {life}\n"
+                              f"Energy = {energy}\n"
+                              f"Gold = {gold}\n"), font=("Times New Roman", 16))
+stats.place(x=100, y=100)
+question = Entry(wind, font=("Arial", 15), )
 
 # Images
 Castle_i = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\output-onlinepngtools.png")
 pathway_1_i = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\output-onlinepngtools (1).png")
 jump_i = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\output-onlinepngtools (2).png")
+Doors = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\dark doors (1).png")
+math = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\math.png")
+Trapdoor = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\trapdoor.png")
+P_door = ImageTk.PhotoImage(file="C:\\Users\\19702\\OneDrive\\Pictures\\Saved Pictures\\P door.PNG")
+la_box = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\box.png")
+burger = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\burger.png")
+coin = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\coin.png")
+Z_door = ImageTk.PhotoImage(file="C:\\Users\\19702\\OneDrive\\Pictures\\Saved Pictures\\Z chamber.PNG")
+Zach_picture = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\Zach blumpkin.png")
+heart = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\Heart.png")
+wolf = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\wolf.png")
+bun = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\bunnies.png")
+thedoor = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\door.png")
+lokahi = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\Lokahi.jpg")
+hana = ImageTk.PhotoImage(file="C:\\Users\\19702\\Downloads\\hanagami.jpg")
 
+def Attack():
+    global life
+    global energy
+    global animals
+    global animals_func
+    x = dice()
+    for i in animals:
+        if i == enemy:
+            if x == 1 or x == 2 or x == 3 :
+                life -= 1
+                if life <= 0:
+                    death()
+                else:
+                    for f in animals_func:
+                        if f == enemy:
+                            animals_func.get(f)()
+            if x == 4 or x == 5:
+                animals[enemy] = animals[enemy] - 1
+                if animals[enemy] <= 0:
+                    if enemy == "z" or enemy == "h":
+                        victory()
+                    if enemy == "w":
+                        Trap_3()
+                    if enemy == "b":
+                        energy += 1
+                        chamber()
+                else:
+                    for f in animals_func:
+                        if f == enemy:
+                            animals_func.get(f)()
+            if x == 6:
+                animals[enemy] = animals[enemy] - 2
+                if animals.get(enemy) <= 0:
+                    if enemy == "z" or "h":
+                        victory()
+                    if enemy == "w":
+                        Trap_3()
+                    if enemy == "b":
+                        energy += 1
+                        chamber()
+
+                else:
+                    for f in animals_func:
+                        if f == enemy:
+                            animals_func.get(f)()
 song()
 wind.mainloop()
+
+
+
+
+
+
 
