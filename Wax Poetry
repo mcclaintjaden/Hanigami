@@ -1,0 +1,70 @@
+import random
+
+nouns = ["Foot", "Shaving Cream", "Ice", "Hanagami's toenails", "Gangnam Style", "25 Albums", "AP Stats Work", "Glass", "Mice", "Spork"]
+adj = ["Stinky", "Smelly", "Foul", "Wet", "Oiled", "Sharp", "Dull", "Pleasantly", "Clear", "Flat"]
+verb = ["Run", "Hide", "Jump", "Climb", "Smack", "Lace", "Smoke", "Click", "Point", "Eat"]
+adverb = ["Always", "Now", "Today", "Soon", "Very", "Here", "Today", "Simply", "Outside", "Well"]
+
+def randpoem_choice():
+    x = random.choice(nouns)
+    y = random.choice(adj)
+    p = random.choice(verb)
+    m = random.choice(adverb)
+    print(x, y, p, m)
+    adj.pop(adj.index(y))
+    verb.pop(verb.index(p))
+    adverb.pop(adverb.index(m))
+    y = random.choice(adj)
+    p = random.choice(verb)
+    m = random.choice(adverb)
+    print(x, y, p, m)
+    nouns.pop(nouns.index(x))
+    adj.pop(adj.index(y))
+    verb.pop(verb.index(p))
+    adverb.pop(adverb.index(m))
+    x = random.choice(nouns)
+    y = random.choice(adj)
+    p = random.choice(verb)
+    m = random.choice(adverb)
+    print(x, y, p, m)
+    nouns.pop(nouns.index(x))
+    adj.pop(adj.index(y))
+    verb.pop(verb.index(p))
+    adverb.pop(adverb.index(m))
+    x = random.choice(nouns)
+    y = random.choice(adj)
+    p = random.choice(verb)
+    m = random.choice(adverb)
+    print(x, y, p, m)
+
+start = 0
+end = 9
+def randpoem_int():
+    global start
+    global end
+    x = random.randint(start, end)
+    y = random.randint(start, end)
+    p = random.randint(start, end)
+    m = random.randint(start, end)
+    print(nouns[x], adj[y], verb[p], adverb[m])
+    verb.pop(p), adj.pop(y), adverb.pop(m)
+    end -= 1
+    x = random.randint(start, end)
+    y = random.randint(start, end)
+    p = random.randint(start, end)
+    m = random.randint(start, end)
+    print(nouns[x], adj[y], verb[p], adverb[m])
+    nouns.pop(x), verb.pop(p), adj.pop(y), adverb.pop(m)
+    end -= 1
+    x = random.randint(start, end)
+    y = random.randint(start, end)
+    p = random.randint(start, end)
+    m = random.randint(start, end)
+    print(nouns[x], adj[y], verb[p], adverb[m])
+    nouns.pop(x), verb.pop(p), adj.pop(y), adverb.pop(m)
+    end -= 1
+    x = random.randint(start, end)
+    y = random.randint(start, end)
+    p = random.randint(start, end)
+    m = random.randint(start, end)
+    print(nouns[x], adj[y], verb[p], adverb[m])
